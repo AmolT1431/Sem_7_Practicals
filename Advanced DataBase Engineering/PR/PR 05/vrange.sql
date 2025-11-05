@@ -1,0 +1,25 @@
+CREATE TABLE STUDENT_INVENTORY (
+    id INT,
+    student_name VARCHAR(50),
+    subjects_count INT,
+    total_marks INT
+)
+PARTITION BY RANGE COLUMNS(subjects_count, total_marks) (
+    PARTITION P_low VALUES LESS THAN (3, 100),
+    PARTITION P_medium VALUES LESS THAN (6, 500),
+    PARTITION P_high VALUES LESS THAN (10, 1000)
+);
+
+INSERT INTO STUDENT_INVENTORY VALUES
+(1, 'Ramesh', 2, 90),
+(2, 'Khilan', 4, 300),
+(3, 'Kaushik', 5, 400),
+(4, 'Chaitali', 7, 600),
+(5, 'Hardik', 8, 800);
+
+-- Display partition info
+SELECT PARTITION_NAME, TABLE_ROWS
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_NAME='STUDENT_INVENTORY';
+
+SELECT * FROM STUDENT_INVENTORY PARTITION (p_low);

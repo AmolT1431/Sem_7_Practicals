@@ -1,0 +1,20 @@
+CREATE TABLE STUDENTS_HASH (
+    id INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    marks INT
+)
+PARTITION BY HASH(id) PARTITIONS 4;
+
+INSERT INTO STUDENTS_HASH VALUES
+(1, 'Ramesh', 85),
+(2, 'Khilan', 90),
+(3, 'Kaushik', 75),
+(4, 'Chaitali', 80),
+(5, 'Hardik', 88),
+(6, 'Komal', 92),
+(7, 'Muffy', 95);
+
+-- Display partition info
+SELECT PARTITION_NAME, TABLE_ROWS
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_NAME='STUDENTS_HASH';
